@@ -19,6 +19,9 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.Color;
+import javax.swing.JScrollBar;
+import javax.swing.JTable;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Vista extends JFrame{
 
@@ -26,6 +29,7 @@ public class Vista extends JFrame{
 	private JComboBox comboBoxBolas;
 	private JSpinner spinnerBolasExtraer;
 	private JSlider slider;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -49,20 +53,67 @@ public class Vista extends JFrame{
 	public Vista() {
 		
 		JPanel panel = new JPanel();
+		
+		JPanel panel_1 = new JPanel();
+		
+		JPanel panel_2 = new JPanel();
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE)
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(panel_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 670, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(347, Short.MAX_VALUE))
+					.addGap(18)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 313, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
+		panel_2.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		
+		JLabel lblIteraciones = new JLabel("Iteraciones:");
+		panel_2.add(lblIteraciones);
+		
+		JLabel lblIteracionesTotal = new JLabel("0");
+		panel_2.add(lblIteracionesTotal);
+		
+		JLabel lblExito = new JLabel("Exito:");
+		panel_2.add(lblExito);
+		
+		JLabel lblExitoTotal = new JLabel("0");
+		panel_2.add(lblExitoTotal);
+		
+		JLabel lblNewLabel_2 = new JLabel("Fracaso:");
+		panel_2.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Numero de temas");
+		panel_2.add(lblNewLabel_3);
+		
+		JLabel lblTemasTotal = new JLabel("0");
+		panel_2.add(lblTemasTotal);
+		
+		JLabel lblNewLabel_4 = new JLabel("Temas estudiados:");
+		panel_2.add(lblNewLabel_4);
+		
+		JLabel lblEstudiadosTotal = new JLabel("0");
+		panel_2.add(lblEstudiadosTotal);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+		JScrollBar scrollBar = new JScrollBar();
+		panel_1.add(scrollBar, BorderLayout.EAST);
+		
+		table = new JTable();
+		panel_1.add(table, BorderLayout.CENTER);
 		panel.setLayout(new MigLayout("", "[][][grow]", "[][][]"));
 		
 		JLabel lblNewLabel = new JLabel("Numero de bolas");
@@ -135,6 +186,4 @@ public class Vista extends JFrame{
 	public void setSlider(JSlider slider) {
 		this.slider = slider;
 	}
-	
-	
 }
