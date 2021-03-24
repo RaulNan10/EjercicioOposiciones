@@ -4,20 +4,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.table.DefaultTableModel;
+
 import es.ieslavereda.Oposiciones.modelo.Bola;
 import es.ieslavereda.Oposiciones.modelo.Bombo;
 import es.ieslavereda.Oposiciones.vistas.Vista;
 
 public class ControladorOpo implements ActionListener {
 
-// Para coger el valor del spinner es spinner.getValue();	
-
-// Para limpiar el textField de los temas estudiados y guardarlos en un vector
-// array = texto.replaceAll(" ", "").split(',');
 	private Vista vista;
 	private ArrayList<Integer> temasEstudiados;
 	private Bombo bombo;
 	private ArrayList<Bola> temasExamen;
+	private DefaultTableModel dtm;
 
 	public ControladorOpo(Vista vista) {
 		super();
@@ -25,9 +24,14 @@ public class ControladorOpo implements ActionListener {
 		this.bombo = null;
 		temasEstudiados = new ArrayList<Integer>();
 		temasExamen = new ArrayList<Bola>();
+		dtm = null;
 
 		inicializar();
 		go();
+	}
+
+	public void go() {
+		vista.setVisible(true);
 	}
 
 	public void inicializar() {
@@ -51,27 +55,25 @@ public class ControladorOpo implements ActionListener {
 		}
 	}
 
-	public void go() {
-		vista.setVisible(true);
-	}
-
 	public void simular() {
 
 		int simulaciones;
 		simulaciones = vista.getSlider().getValue();
 
 		for (int i = 1; i <= simulaciones; i++) {
-			if (comprobarTemasEstudiados()) {
-				guardarTemas();
-				if (comprobarExtraer()) {
-					bombo = new Bombo(vista.getComboBoxBolas().getSelectedIndex() + 1);
-					temasExamen.add(bombo.extraer());
-					insertarColumna();
-				}
+
+			guardarTemas();
+			if (comprobarExtraer()) {
+				bombo = new Bombo(vista.getComboBoxBolas().getSelectedIndex() + 1);
+				temasExamen.add(bombo.extraer());
+				insertarColumna();
+				generarFilas();
+
 			}
 		}
-
 	}
+
+
 
 	// Hace la comprobacion de que hay almenos un tema estudiado en el txtField
 	public boolean comprobarTemasEstudiados() {
@@ -82,15 +84,6 @@ public class ControladorOpo implements ActionListener {
 			System.out.println("false");
 			return false;
 		}
-	}
-
-	// Comprueba que el numero de bolas a extraer, es menor que el total de bolas
-	public boolean comprobarExtraer() {
-		if ((int) (vista.getSpinnerBolasExtraer().getValue()) > 0
-				&& vista.getComboBoxBolas().getSelectedIndex() + 1 > (int) (vista.getSpinnerBolasExtraer().getValue()))
-			return true;
-		else
-			return false;
 	}
 
 	// Guarda los temas estudiados del txtField en la lista de temasEstudiados
@@ -108,16 +101,37 @@ public class ControladorOpo implements ActionListener {
 		}
 	}
 
-	public void insertarColumna() {
-		int repeticiones = (int) (vista.getSpinnerBolasExtraer().getValue());
+	// Comprueba que el numero de bolas a extraer, es menor que el total de bolas
+	public boolean comprobarExtraer() {
+		if ((int) (vista.getSpinnerBolasExtraer().getValue()) > 0
+				&& vista.getComboBoxBolas().getSelectedIndex() + 1 > (int) (vista.getSpinnerBolasExtraer().getValue()))
+			return true;
+		else
+			return false;
+	}
 
-		vista.getDtm().addColumn("Simulacion nº");
+	public void insertarColumna() {
+
+		System.out.println("hola");
+		int repeticiones = (int) (vista.getSpinnerBolasExtraer().getValue());
+		dtm = new DefaultTableModel();
+
+		dtm.addColumn("Simulacion nº");
 		for (int i = 1; i <= repeticiones; i++) {
-			vista.getDtm().addColumn("Bola " + String.valueOf(i));
+			dtm.addColumn("Bola " + String.valueOf(i));
 		}
-		vista.getDtm().addColumn("Exito");
-		vista.getDtm().addColumn("Nº de aciertos");
+		dtm.addColumn("Exito");
+		dtm.addColumn("Nº de aciertos");
+
+		vista.getTable().setModel(dtm);
 
 	}
 
+	private void generarFilas() {
+		
+		for(Bola b : temasExamen) {
+			
+		}
+		
+	}
 }

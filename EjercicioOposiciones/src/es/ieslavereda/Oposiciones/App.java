@@ -2,6 +2,7 @@ package es.ieslavereda.Oposiciones;
 
 import java.awt.EventQueue;
 
+import es.ieslavereda.Oposiciones.controlador.ControladorOpo;
 import es.ieslavereda.Oposiciones.vistas.Vista;
 
 public class App {
@@ -14,7 +15,9 @@ public class App {
 			public void run() {
 				try {
 					Vista window = new Vista();
-					window.setVisible(true);
+					ControladorOpo c = new ControladorOpo(window);
+					c.go();
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
