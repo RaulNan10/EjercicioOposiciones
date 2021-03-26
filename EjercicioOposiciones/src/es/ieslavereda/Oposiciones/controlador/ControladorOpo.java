@@ -3,6 +3,7 @@ package es.ieslavereda.Oposiciones.controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -67,7 +68,7 @@ public class ControladorOpo implements ActionListener {
 				bombo = new Bombo(vista.getComboBoxBolas().getSelectedIndex() + 1);
 				temasExamen.add(bombo.extraer());
 				insertarColumna();
-				generarFilas();
+				generarFilas(i);
 
 			}
 		}
@@ -112,9 +113,9 @@ public class ControladorOpo implements ActionListener {
 
 	public void insertarColumna() {
 
-		System.out.println("hola");
 		int repeticiones = (int) (vista.getSpinnerBolasExtraer().getValue());
 		dtm = new DefaultTableModel();
+		vista.getTable().setModel(dtm);
 
 		dtm.addColumn("Simulacion nº");
 		for (int i = 1; i <= repeticiones; i++) {
@@ -123,13 +124,25 @@ public class ControladorOpo implements ActionListener {
 		dtm.addColumn("Exito");
 		dtm.addColumn("Nº de aciertos");
 
-		vista.getTable().setModel(dtm);
+		
 
 	}
-
-	private void generarFilas() {
+	// Numero es para indicar el numero de simulacion que se esta realizando
+	private void generarFilas(int numero) {
+		int aciertos = 0;
+		boolean exito = false;
+		Vector<String> v = null;
+		
 		
 		for(Bola b : temasExamen) {
+			for(Integer i : temasEstudiados) {
+				if(b.getNumero()==i) {
+					aciertos ++;
+					exito = true;
+					
+					(int)(numero);
+				}
+			}
 			
 		}
 		
